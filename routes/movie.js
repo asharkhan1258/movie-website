@@ -5,15 +5,13 @@ const cloudinary = require('../config/cloudinary');
 const Movie = require('../models/movie');
 const auth = require('../middleware/auth');
 
-// Multer configuration for handling file uploads
 const upload = multer({
   storage: multer.memoryStorage(),
   limits: {
-    fileSize: 5 * 1024 * 1024, // 5MB limit
+    fileSize: 5 * 1024 * 1024,
   },
 });
 
-// Add new movie
 router.post('/', auth, upload.single('image'), async (req, res) => {
   try {
     const { title, publishingYear } = req.body;
@@ -22,11 +20,9 @@ router.post('/', auth, upload.single('image'), async (req, res) => {
       return res.status(400).json({ message: 'Image is required' });
     }
 
-    // Convert buffer to base64
     const b64 = Buffer.from(req.file.buffer).toString('base64');
     const dataURI = `data:${req.file.mimetype};base64,${b64}`;
 
-    // Upload to Cloudinary
     const result = await cloudinary.uploader.upload(dataURI, {
       folder: 'movies',
     });
@@ -45,17 +41,31 @@ router.post('/', auth, upload.single('image'), async (req, res) => {
   }
 });
 
-// Get all movies
 router.get('/', auth, async (req, res) => {
   try {
-    const movies = await Movie.find({ userId: req.userId });
-    res.json(movies);
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 8;
+    const skip = (page - 1) * limit;
+
+    const movies = await Movie.find({ userId: req.userId })
+      .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(limit);
+
+    const total = await Movie.countDocuments({ userId: req.userId });
+    const totalPages = Math.ceil(total / limit);
+
+    res.json({
+      movies,
+      currentPage: page,
+      totalPages,
+      totalMovies: total
+    });
   } catch (error) {
     res.status(500).json({ message: 'Server error' });
   }
 });
 
-// Get single movie by ID
 router.get('/:id', auth, async (req, res) => {
   try {
     const movie = await Movie.findOne({ _id: req.params.id, userId: req.userId });
@@ -68,7 +78,6 @@ router.get('/:id', auth, async (req, res) => {
   }
 });
 
-// Update movie
 router.put('/:id', auth, upload.single('image'), async (req, res) => {
   try {
     const { title, publishingYear } = req.body;
@@ -82,13 +91,10 @@ router.put('/:id', auth, upload.single('image'), async (req, res) => {
     movie.title = title;
     movie.publishingYear = publishingYear;
 
-    // If new image is uploaded
     if (req.file) {
-      // Convert buffer to base64
       const b64 = Buffer.from(req.file.buffer).toString('base64');
       const dataURI = `data:${req.file.mimetype};base64,${b64}`;
 
-      // Upload to Cloudinary
       const result = await cloudinary.uploader.upload(dataURI, {
         folder: 'movies',
       });
