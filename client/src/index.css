@@ -30,8 +30,20 @@ body {
   min-height: 100vh;
 }
 
+.auth-title {
+  font-size: 72px;
+  font-weight: 600;
+  font-family: "Montserrat";
+}
+
+.input {
+  width: 90%;
+  margin: 0px auto;
+  font-family: "Montserrat";
+}
+
 .wave-bg {
-  background-image: url('/wave-bg.svg');
+  background-image: url("/waves.svg");
   background-position: bottom;
   background-repeat: no-repeat;
   background-size: 100%;
@@ -51,7 +63,7 @@ body {
   background-color: rgba(255, 255, 255, 0.1) !important;
   border: none !important;
   color: white !important;
-  padding: 0.75rem !important;
+  padding: 0.75rem 0.95rem !important;
 }
 
 .form-control::placeholder {
@@ -59,9 +71,49 @@ body {
 }
 
 .btn-primary {
-  background-color: #00DC82 !important;
+  background-color: #00dc82 !important;
   border: none !important;
   padding: 0.75rem !important;
+}
+
+.bottom-desc {
+  width: 90%;
+  margin: 0 auto;
+}
+
+.login-button {
+  width: 90%;
+  margin: 0 auto;
+}
+
+.signup-button {
+  width: 90%;
+  margin: 0 auto;
+}
+
+.form-check-input {
+  background-color: rgba(255, 255, 255, 0.1) !important;
+  border: rgba(255, 255, 255, 0.1) !important;
+}
+
+.form-check-label {
+  font-size: 16px;
+  font-weight: 400;
+  font-family: "Montserrat";
+  margin-left: 3px;
+}
+
+.bottom-link {
+  font-size: 15px;
+  font-weight: 400;
+  font-family: "Montserrat";
+  margin-left: 2px;
+}
+
+.bottom-desc {
+  font-size: 16px;
+  font-weight: 400;
+  font-family: "Montserrat";
 }
 
 .movie-grid {
@@ -117,7 +169,7 @@ body {
 }
 
 .pagination button {
-  background-color: #00DC82;
+  background-color: #00dc82;
   border: none;
   padding: 0.5rem 1rem;
   border-radius: 5px;
