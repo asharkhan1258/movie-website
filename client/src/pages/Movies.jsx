@@ -6,25 +6,31 @@ import { Link, useNavigate } from 'react-router-dom';
 const Movies = ({ setIsAuthenticated }) => {
   const [movies, setMovies] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
   useEffect(() => {
     fetchMovies();
-  }, []);
+  }, [currentPage]);
 
   const fetchMovies = async () => {
     try {
-      const response = await axios.get(`${import.meta.env.VITE_API_URL}/movies`, {
+      setLoading(true);
+      const response = await axios.get(`${import.meta.env.VITE_API_URL}/movies?page=${currentPage}&limit=8}`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`
         }
       });
-      setMovies(response.data);
+      setMovies(response.data.movies);
+      setTotalPages(response.data.totalPages);
+      setLoading(false);
     } catch (error) {
       console.error('Error fetching movies:', error);
       if (error.response?.status === 401) {
         handleLogout();
       }
+      setLoading(false);
     }
   };
 
@@ -34,7 +40,17 @@ const Movies = ({ setIsAuthenticated }) => {
     navigate('/signin');
   };
 
-  if (movies.length === 0) {
+  if (loading) {
+    return (
+      <div className="d-flex justify-content-center align-items-center" style={{ minHeight: '80vh' }}>
+        <div className="spinner-border" role="status">
+          <span className="visually-hidden">Loading...</span>
+        </div>
+      </div>
+    );
+  }
+
+  if (movies.length === 0 && currentPage === 1) {
     return (
       <div className="d-flex flex-column align-items-center justify-content-center" style={{ minHeight: '80vh' }}>
         <h2 className="mb-4">Your movie list is empty</h2>
@@ -74,23 +90,27 @@ const Movies = ({ setIsAuthenticated }) => {
           </div>
         ))}
       </div>
-      {movies.length > 8 && (
+      <div className="pagination-container">
         <div className="pagination">
           <button 
+            className="pagination-button"
             disabled={currentPage === 1}
             onClick={() => setCurrentPage(prev => prev - 1)}
           >
             Prev
           </button>
-          <span>{currentPage}</span>
+          <span className="pagination-info">
+            {currentPage} / {totalPages}
+          </span>
           <button 
-            disabled={movies.length <= currentPage * 8}
+            className="pagination-button"
+            disabled={currentPage >= totalPages}
             onClick={() => setCurrentPage(prev => prev + 1)}
           >
             Next
           </button>
         </div>
-      )}
+      </div>
     </div>
   );
 };
