@@ -1,15 +1,22 @@
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import { useState } from 'react';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import './index.css';
-import Signin from './pages/Signin';
-import Signup from './pages/Signup';
-import Movies from './pages/Movies';
-import AddMovie from './pages/AddMovie';
-import EditMovie from './pages/EditMovie';
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
+import { useState } from "react";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "./index.css";
+import Signin from "./pages/Signin";
+import Signup from "./pages/Signup";
+import Movies from "./pages/Movies";
+import AddMovie from "./pages/AddMovie";
+import EditMovie from "./pages/EditMovie";
 
 function App() {
-  const [isAuthenticated, setIsAuthenticated] = useState(!!localStorage.getItem('token'));
+  const [isAuthenticated, setIsAuthenticated] = useState(
+    !!localStorage.getItem("token")
+  );
 
   const PrivateRoute = ({ children }) => {
     return isAuthenticated ? children : <Navigate to="/signin" />;
@@ -19,8 +26,14 @@ function App() {
     <Router>
       <div className="wave-bg">
         <Routes>
-          <Route path="/signin" element={<Signin setIsAuthenticated={setIsAuthenticated} />} />
-          <Route path="/signup" element={<Signup setIsAuthenticated={setIsAuthenticated} />} />
+          <Route
+            path="/signin"
+            element={<Signin setIsAuthenticated={setIsAuthenticated} />}
+          />
+          <Route
+            path="/signup"
+            element={<Signup setIsAuthenticated={setIsAuthenticated} />}
+          />
           <Route
             path="/movies"
             element={
@@ -52,4 +65,4 @@ function App() {
   );
 }
 
-export default App
+export default App;

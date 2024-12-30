@@ -1,7 +1,7 @@
-import { useState, useEffect } from 'react';
-import { Button } from 'react-bootstrap';
-import axios from 'axios';
-import { Link, useNavigate } from 'react-router-dom';
+import { useState, useEffect } from "react";
+import { Button } from "react-bootstrap";
+import axios from "axios";
+import { Link, useNavigate } from "react-router-dom";
 
 const Movies = ({ setIsAuthenticated }) => {
   const [movies, setMovies] = useState([]);
@@ -17,16 +17,19 @@ const Movies = ({ setIsAuthenticated }) => {
   const fetchMovies = async () => {
     try {
       setLoading(true);
-      const response = await axios.get(`${import.meta.env.VITE_API_URL}/movies?page=${currentPage}&limit=8}`, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`
+      const response = await axios.get(
+        `${import.meta.env.VITE_API_URL}/movies?page=${currentPage}&limit=8}`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
         }
-      });
+      );
       setMovies(response.data.movies);
       setTotalPages(response.data.totalPages);
       setLoading(false);
     } catch (error) {
-      console.error('Error fetching movies:', error);
+      console.error("Error fetching movies:", error);
       if (error.response?.status === 401) {
         handleLogout();
       }
@@ -35,14 +38,17 @@ const Movies = ({ setIsAuthenticated }) => {
   };
 
   const handleLogout = () => {
-    localStorage.removeItem('token');
+    localStorage.removeItem("token");
     setIsAuthenticated(false);
-    navigate('/signin');
+    navigate("/signin");
   };
 
   if (loading) {
     return (
-      <div className="d-flex justify-content-center align-items-center" style={{ minHeight: '80vh' }}>
+      <div
+        className="d-flex justify-content-center align-items-center"
+        style={{ minHeight: "80vh" }}
+      >
         <div className="spinner-border" role="status">
           <span className="visually-hidden">Loading...</span>
         </div>
@@ -52,10 +58,15 @@ const Movies = ({ setIsAuthenticated }) => {
 
   if (movies.length === 0 && currentPage === 1) {
     return (
-      <div className="d-flex flex-column align-items-center justify-content-center" style={{ minHeight: '80vh' }}>
-        <h2 className="mb-4">Your movie list is empty</h2>
+      <div
+        className="d-flex flex-column align-items-center justify-content-center"
+        style={{ minHeight: "80vh" }}
+      >
+        <p className="mb-4 empty-title">Your movie list is empty</p>
         <Link to="/add-movie">
-          <Button variant="primary">Add a new movie</Button>
+          <Button variant="primary" className="addMovie">
+            Add a new movie
+          </Button>
         </Link>
       </div>
     );
@@ -63,14 +74,26 @@ const Movies = ({ setIsAuthenticated }) => {
 
   return (
     <div>
-      <div className="page-header">
-        <h2>My movies</h2>
-        <div>
-          <Link to="/add-movie" className="me-3">
-            <Button variant="primary">Add a new movie</Button>
+      <div className="page-header d-flex align-items-center">
+        <div className="d-flex align-items-center">
+          <p className="myMovie mb-0" style={{ marginRight: "20px" }}>
+            My movies
+          </p>
+          <Link to="/add-movie" className="me-3 addMovie-home">
+            <i class="fa-solid fa-plus fa-lg" style={{ color: "#fff" }}></i>
           </Link>
-          <Button variant="link" className="text-white" onClick={handleLogout}>
-            Logout
+        </div>
+        <div>
+          <Button
+            variant="link"
+            className="text-white d-flex align-items-center logout"
+            onClick={handleLogout}
+          >
+            <p className="mb-0 d-lg-block d-none">Logout</p>
+            <i
+              class="fa-solid fa-arrow-right-from-bracket fa-xl"
+              style={{ marginLeft: "18px" }}
+            ></i>
           </Button>
         </div>
       </div>
@@ -80,35 +103,39 @@ const Movies = ({ setIsAuthenticated }) => {
             key={movie._id}
             className="movie-card"
             onClick={() => navigate(`/edit-movie/${movie._id}`)}
-            style={{ cursor: 'pointer' }}
+            style={{ cursor: "pointer" }}
           >
-            <img src={movie.imageUrl} alt={movie.title} className="movie-image" />
+            <img
+              src={movie.imageUrl}
+              alt={movie.title}
+              className="movie-image"
+            />
             <div className="movie-info">
               <h5>{movie.title}</h5>
-              <p className="text-muted">{movie.publishingYear}</p>
+              <p className="text-white">{movie.publishingYear}</p>
             </div>
           </div>
         ))}
       </div>
       <div className="pagination-container">
         <div className="pagination">
-          <button 
+          <span
             className="pagination-button"
             disabled={currentPage === 1}
-            onClick={() => setCurrentPage(prev => prev - 1)}
+            onClick={() => setCurrentPage((prev) => prev - 1)}
           >
             Prev
-          </button>
+          </span>
           <span className="pagination-info">
             {currentPage} / {totalPages}
           </span>
-          <button 
+          <span
             className="pagination-button"
             disabled={currentPage >= totalPages}
-            onClick={() => setCurrentPage(prev => prev + 1)}
+            onClick={() => setCurrentPage((prev) => prev + 1)}
           >
             Next
-          </button>
+          </span>
         </div>
       </div>
     </div>

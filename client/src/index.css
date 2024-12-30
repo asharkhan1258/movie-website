@@ -1,3 +1,7 @@
+* {
+  font-family: "Montserrat";
+}
+
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
@@ -33,13 +37,11 @@ body {
 .auth-title {
   font-size: 72px;
   font-weight: 600;
-  font-family: "Montserrat";
 }
 
 .input {
   width: 90%;
   margin: 0px auto;
-  font-family: "Montserrat";
 }
 
 .wave-bg {
@@ -56,7 +58,7 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-height: 100vh;
+  min-height: 89vh;
 }
 
 .form-control {
@@ -66,6 +68,10 @@ body {
   padding: 0.75rem 0.95rem !important;
 }
 
+.form-control:focus {
+  box-shadow: 0 0 0 0 rgba(13, 110, 253, 0.25);
+}
+
 .form-control::placeholder {
   color: rgba(255, 255, 255, 0.5);
 }
@@ -73,7 +79,8 @@ body {
 .btn-primary {
   background-color: #00dc82 !important;
   border: none !important;
-  padding: 0.75rem !important;
+  padding: 0.75rem 1.6rem !important;
+  font-weight: 600;
 }
 
 .bottom-desc {
@@ -91,6 +98,35 @@ body {
   margin: 0 auto;
 }
 
+.myMovie {
+  font-size: 50px;
+  font-weight: 600;
+}
+
+.addMovie-home {
+  border: 3px solid #ffffff;
+  padding: 3px 5px 2px 5px;
+  border-radius: 20px;
+  margin-top: 5px;
+}
+
+.logout p {
+  font-size: 18px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.logout {
+  text-decoration: none;
+}
+
+.empty-title {
+  font-size: 48px;
+  font-weight: 600;
+  color: #ffffff;
+  text-align: center;
+}
+
 .form-check-input {
   background-color: rgba(255, 255, 255, 0.1) !important;
   border: rgba(255, 255, 255, 0.1) !important;
@@ -99,21 +135,18 @@ body {
 .form-check-label {
   font-size: 16px;
   font-weight: 400;
-  font-family: "Montserrat";
   margin-left: 3px;
 }
 
 .bottom-link {
   font-size: 15px;
   font-weight: 400;
-  font-family: "Montserrat";
   margin-left: 2px;
 }
 
 .bottom-desc {
   font-size: 16px;
   font-weight: 400;
-  font-family: "Montserrat";
 }
 
 .movie-grid {
@@ -123,11 +156,17 @@ body {
   padding: 2rem 0;
 }
 
+.image-drop {
+  font-size: 22px;
+  font-weight: 300;
+}
+
 .movie-card {
   background-color: rgba(255, 255, 255, 0.1);
   border-radius: 10px;
   overflow: hidden;
   transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  padding: 6px 8px 6px 8px;
 }
 
 .movie-card:hover {
@@ -137,21 +176,67 @@ body {
 
 .movie-image {
   width: 100%;
-  height: 300px;
+  height: 340px;
   object-fit: cover;
+  border-radius: 6px;
 }
 
 .movie-info {
-  padding: 1rem;
+  margin-top: 16px;
+  margin-left: 6px;
+}
+
+.movie-info h5 {
+  color: #ffffff;
+  font-size: 18px;
+}
+
+.pagination-button {
+  cursor: pointer;
 }
 
 .dropzone {
-  border: 2px dashed rgba(255, 255, 255, 0.2);
+  border: 2px dashed #ffffff;
   border-radius: 10px;
   padding: 2rem;
   text-align: center;
   cursor: pointer;
   margin-bottom: 1rem;
+  min-width: 50%;
+  height: 60vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #224957;
+}
+
+.addMovie-form {
+  min-width: 40%;
+}
+
+.movieInput-title {
+  width: 90%;
+}
+
+.movieInput-year {
+  width: 50%;
+}
+
+.submit-button {
+}
+
+.cancel-button {
+  background-color: transparent;
+  border: 1.5px solid #ffffff;
+}
+
+.createMovie {
+  font-size: 52px;
+  font-weight: 600;
+}
+
+.addMovie-buttons {
+  width: 90%;
 }
 
 .page-header {
@@ -214,5 +299,66 @@ button:focus-visible {
   }
   button {
     background-color: #f9f9f9;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .empty-title {
+    font-size: 40px;
+    line-height: 52px;
+  }
+
+  .createMovie {
+    font-size: 40px;
+    font-weight: 500;
+
+    line-height: 50px;
+  }
+
+  .dropzone {
+    height: 40vh;
+    padding: 0rem;
+  }
+
+  .myMovie {
+    font-size: 36px;
+    font-weight: 600;
+  }
+}
+
+@media screen and (min-width: 992px) {
+  .addMovie-main {
+    height: 89vh;
+    max-width: "90%";
+    padding: 2rem;
+  }
+}
+
+@media screen and (max-width: 991px) {
+  .addMovie-main {
+    padding: 1rem;
+  }
+
+  .movieInput-title {
+    width: 100%;
+  }
+
+  .movieInput-year {
+    width: 100%;
+  }
+
+  .addMovie-buttons {
+    width: 100%;
+  }
+}
+
+@media screen and (max-width: 540px) {
+  .addMovie-main {
+    padding: 0rem;
+  }
+
+  .myMovie {
+    font-size: 28px;
+    font-weight: 500;
   }
 }
